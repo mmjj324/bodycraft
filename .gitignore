@@ -1,0 +1,54 @@
+# ============================================================
+# Never commit personal data.
+# These files hold your weight, journal, photos and API key.
+# Once something is committed, deleting it later doesn't remove it
+# from git history -- anyone can still dig it out.
+# ============================================================
+
+# API keys (plain text)
+api_config.json
+api_key.txt
+.llm_debug.txt
+
+# Personal records. The app starts with built-in defaults when these are
+# missing and creates them on first use, so the repo needs no samples.
+data.json
+content.json
+diary.json
+photos.json
+attach.json
+selfies.json
+knowledge.json
+food_lookup.json
+favorites.json
+member_setup.json
+
+# Photos, attachments, backups (docs/screenshots/ IS committed)
+photos/
+files/
+selfies/
+backups/
+uninstall-backup_*/
+
+# Runtime state
+.server_running.json
+.widget_running.json
+.widget_pos.json
+.rollback.json
+.server.log
+*.tmp
+
+# Generated icon previews (bodycraft.ico and bodycraft.png are committed)
+icon-preview.png
+favicon-32.png
+
+# System and tools
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+tests/.last_run/
+tests/.*_tmp/

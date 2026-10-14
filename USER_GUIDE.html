@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1D6B4F">
+<title>Bodycraft user guide</title>
+<style>
+  :root{
+    --bg:#FAF7F1;
+    --bg-soft:#F2EDE3;
+    --card:#FFFFFF;
+    --ink:#1C2420;
+    --ink-2:#47524C;
+    --ink-3:#77817B;
+    --line:#E5DFD3;
+    --line-2:#D6CFC1;
+    --brand:#1D6B4F;
+    --brand-deep:#134A37;
+    --brand-soft:#E5EFE8;
+    --amber:#8F6220;
+    --amber-soft:#F6EDDC;
+    --red:#A8392D;
+    --red-soft:#F8E9E6;
+    --sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif:"Iowan Old Style", Charter, "Palatino Linotype", Georgia, serif;
+    --mono:"SF Mono", SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --r:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  ::selection{background:#D5E6DA}
+  a{color:var(--brand);text-decoration-thickness:1px;text-underline-offset:2px}
+  a:hover{color:var(--brand-deep)}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:3px}
+
+  /* ---------- header ---------- */
+  .top{background:var(--card);border-bottom:1px solid var(--line)}
+  .top-inner{max-width:1180px;margin:0 auto;padding:44px 28px 38px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
+  .eyebrow{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+  .top h1{font-family:var(--serif);font-weight:700;font-size:44px;line-height:1.12;margin:8px 0 12px;letter-spacing:-.01em}
+  .top .lede{font-size:19px;color:var(--ink-2);max-width:680px}
+  .badge{display:flex;align-items:center;gap:12px;background:var(--brand-soft);border:1px solid #CFE0D5;border-radius:14px;padding:14px 18px;font-size:14px;color:var(--brand-deep);max-width:300px;line-height:1.5}
+  .badge .dot{flex:none;width:40px;height:40px;border-radius:11px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:22px}
+
+  /* ---------- layout ---------- */
+  .layout{max-width:1180px;margin:0 auto;padding:36px 28px 80px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:56px}
+  nav.toc{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;padding-right:6px}
+  .toc-title{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:10px}
+  .toc ol{list-style:none;counter-reset:toc}
+  .toc li{counter-increment:toc}
+  .toc a{display:flex;gap:10px;padding:6px 10px;border-radius:8px;color:var(--ink-2);text-decoration:none;font-size:14.5px;line-height:1.45}
+  .toc a::before{content:counter(toc);flex:none;width:20px;font-family:var(--mono);font-size:12px;color:var(--ink-3);padding-top:2px}
+  .toc a:hover{background:var(--bg-soft);color:var(--ink)}
+  .toc a.on{background:var(--brand-soft);color:var(--brand-deep);font-weight:600}
+  .toc a.on::before{color:var(--brand)}
+  details.toc-mobile{display:none}
+
+  main{min-width:0;max-width:780px}
+  section{padding-top:8px;margin-bottom:56px;scroll-margin-top:20px}
+  h2{font-family:var(--serif);font-size:31px;line-height:1.2;font-weight:700;margin:0 0 16px;letter-spacing:-.005em}
+  h2 .num{font-family:var(--mono);font-size:15px;color:var(--brand);font-weight:600;display:block;margin-bottom:6px;letter-spacing:0}
+  h3{font-family:var(--serif);font-size:22px;line-height:1.3;font-weight:700;margin:34px 0 10px}
+  h4{font-size:16px;font-weight:650;margin:22px 0 6px}
+  p{margin:0 0 14px}
+  ul,ol{margin:0 0 16px 22px}
+  li{margin:4px 0}
+  li::marker{color:var(--ink-3)}
+  strong{font-weight:650}
+  .muted{color:var(--ink-3)}
+  hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+
+  code{font-family:var(--mono);font-size:.86em;background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;padding:1px 6px;white-space:nowrap}
+  pre{font-family:var(--mono);font-size:14.5px;line-height:1.6;background:#1E2723;color:#E8EFEA;border-radius:10px;padding:14px 18px;overflow-x:auto;margin:0 0 16px}
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit;white-space:pre}
+  .ui{display:inline-block;font-size:.9em;font-weight:600;background:var(--card);border:1px solid var(--line-2);border-radius:999px;padding:0 9px;line-height:1.75;color:var(--ink);white-space:nowrap}
+
+  /* ---------- blocks ---------- */
+  .callout{border-radius:var(--r);padding:14px 18px;margin:0 0 18px;border:1px solid;font-size:16px}
+  .callout p:last-child,.callout ul:last-child{margin-bottom:0}
+  .callout .lbl{display:block;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+  .note{background:var(--brand-soft);border-color:#CFE0D5}
+  .note .lbl{color:var(--brand)}
+  .caution{background:var(--amber-soft);border-color:#EADBBE}
+  .caution .lbl{color:var(--amber)}
+  .stop{background:var(--red-soft);border-color:#EED3CE}
+  .stop .lbl{color:var(--red)}
+
+  figure{margin:22px 0 26px}
+  figure img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line-2);box-shadow:0 1px 2px rgba(30,36,32,.05),0 10px 30px -12px rgba(30,36,32,.18);background:#F2F4F1}
+  figcaption{font-size:14px;color:var(--ink-3);margin-top:10px;line-height:1.6}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:0 0 20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+  .card h4{margin:0 0 6px;font-size:16px}
+  .card p{font-size:15px;color:var(--ink-2);margin:0}
+  .card ul{font-size:15px;color:var(--ink-2);margin-bottom:0}
+
+  .os{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px 6px;margin:0 0 16px}
+  .os h3{margin-top:0;font-size:20px;display:flex;align-items:center;gap:10px}
+  .os h3 .tag{font-family:var(--sans);font-size:12px;font-weight:600;background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;padding:1px 9px;color:var(--ink-2)}
+
+  .steps{counter-reset:step;list-style:none;margin-left:0}
+  .steps > li{counter-increment:step;position:relative;padding-left:38px;margin:10px 0}
+  .steps > li::before{content:counter(step);position:absolute;left:0;top:2px;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+  .tbl{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+  table{border-collapse:collapse;width:100%;font-size:15px;min-width:560px}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:13px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-3);font-weight:600;background:var(--bg-soft)}
+  tr:last-child td{border-bottom:none}
+  td code{white-space:nowrap}
+
+  dl.faq dt{font-weight:650;margin-top:18px}
+  dl.faq dd{margin:4px 0 0;color:var(--ink-2)}
+
+  .totop{font-size:14px;color:var(--ink-3);text-decoration:none}
+  footer{border-top:1px solid var(--line);background:var(--card)}
+  footer .inner{max-width:1180px;margin:0 auto;padding:26px 28px 40px;font-size:14px;color:var(--ink-3)}
+
+  @media (max-width:1000px){
+    .layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:20px}
+    nav.toc{display:none}
+    details.toc-mobile{display:block;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;margin-bottom:28px}
+    details.toc-mobile summary{cursor:pointer;font-weight:650;font-size:15px}
+    details.toc-mobile ol{margin:10px 0 4px 22px;font-size:15px}
+    details.toc-mobile a{text-decoration:none}
+    main{max-width:none}
+  }
+  @media (max-width:640px){
+    body{font-size:16px}
+    .top-inner{grid-template-columns:1fr;padding:30px 16px 26px}
+    .top h1{font-size:34px}
+    .top .lede{font-size:17px}
+    .layout{padding:18px 16px 60px}
+    h2{font-size:26px}
+    h3{font-size:20px}
+    .os{padding:16px 16px 4px}
+  }
+  @media print{
+    nav.toc,details.toc-mobile,.totop{display:none}
+    .layout{display:block}
+    body{background:#fff}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div>
+      <div class="eyebrow">User guide · Version 1</div>
+      <h1>Bodycraft</h1>
+      <p class="lede">A daily routine, meal log and weight tracker for steady fat loss. It runs on your own computer and keeps your records in one folder you control.</p>
+    </div>
+    <div class="badge"><span class="dot">B</span><span>Everything stays on your computer. AI features are optional and use your own provider account.</span></div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#what">What Bodycraft is</a></li>
+      <li><a href="#install">Install and first launch</a></li>
+      <li><a href="#setup">First-run setup</a></li>
+      <li><a href="#day">A day with Bodycraft</a></li>
+      <li><a href="#coach">Talking to the coach</a></li>
+      <li><a href="#ai">Setting up AI</a></li>
+      <li><a href="#window">The eating window</a></li>
+      <li><a href="#progress">Progress and 7-day averages</a></li>
+      <li><a href="#review">Reviews, share cards and export</a></li>
+      <li><a href="#household">Households</a></li>
+      <li><a href="#privacy">Your data and privacy</a></li>
+      <li><a href="#backup">Backups and upgrading</a></li>
+      <li><a href="#uninstall">Uninstalling and starting over</a></li>
+      <li><a href="#trouble">Troubleshooting</a></li>
+      <li><a href="#health">Health disclaimer</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <details class="toc-mobile">
+      <summary>Contents</summary>
+      <ol>
+        <li><a href="#what">What Bodycraft is</a></li>
+        <li><a href="#install">Install and first launch</a></li>
+        <li><a href="#setup">First-run setup</a></li>
+        <li><a href="#day">A day with Bodycraft</a></li>
+        <li><a href="#coach">Talking to the coach</a></li>
+        <li><a href="#ai">Setting up AI</a></li>
+        <li><a href="#window">The eating window</a></li>
+        <li><a href="#progress">Progress and 7-day averages</a></li>
+        <li><a href="#review">Reviews, share cards and export</a></li>
+        <li><a href="#household">Households</a></li>
+        <li><a href="#privacy">Your data and privacy</a></li>
+        <li><a href="#backup">Backups and upgrading</a></li>
+        <li><a href="#uninstall">Uninstalling and starting over</a></li>
+        <li><a href="#trouble">Troubleshooting</a></li>
+        <li><a href="#health">Health disclaimer</a></li>
+      </ol>
+    </details>
+
+    <!-- 1 -->
+    <section id="what">
+      <h2><span class="num">01</span>What Bodycraft is</h2>
+      <p>Bodycraft helps you lose fat at a gentle, steady pace by making the everyday parts easy to keep up with: what to do right now, what you ate, whether you moved, how you slept, and which way your weight is really heading.</p>
+      <p>It is a small program that runs on your computer and opens in a browser window. There is no account to create, no subscription and no cloud service. Your records are ordinary files in the Bodycraft folder.</p>
+
+      <div class="grid">
+        <div class="card"><h4>What it does</h4>
+          <ul>
+            <li>Lays out your day in time blocks and shows where you are now</li>
+            <li>Tracks weigh-ins, meals, protein, water, workouts, sleep and notes</li>
+            <li>Builds a week-by-week plan toward your goal weight</li>
+            <li>Shows 7-day weight averages so daily swings don't mislead you</li>
+            <li>Offers a chat coach and photo meal logging if you add an AI provider</li>
+          </ul>
+        </div>
+        <div class="card"><h4>What it isn't</h4>
+          <ul>
+            <li>Medical, nutrition or exercise advice</li>
+            <li>A replacement for your doctor or a registered dietitian</li>
+            <li>A diet with foods you must or must not eat</li>
+            <li>A website or app store app: nothing is uploaded unless you turn on AI</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout caution"><span class="lbl">Please read</span>
+        <p>Calorie numbers, meal ideas, goal weights and coach replies are general information and estimates. If you have a health condition, take medication, are pregnant or breastfeeding, are under 18, or feel a loss of control around food, talk with a health professional before using the plan features. See the <a href="#health">health disclaimer</a>.</p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="install">
+      <h2><span class="num">02</span>Install and first launch</h2>
+
+      <h3>Before you start: Python</h3>
+      <p>Bodycraft is written in Python and needs <strong>Python 3.9 or newer</strong>. It uses only what comes with Python, so there is nothing else to install. To check whether you already have it, open a terminal (Command Prompt on Windows) and type <code>python3 --version</code> (on Windows, <code>py --version</code>).</p>
+      <p>If you need Python, download it from <a href="https://www.python.org/downloads/">python.org/downloads</a>. On Windows, leave <em>tcl/tk and IDLE</em> checked in the installer; the optional desktop shortcut and reminder bar need it.</p>
+
+      <h3>Get the files</h3>
+      <p>Unzip Bodycraft into a folder you'll keep, for example a <code>Bodycraft</code> folder in your home folder. This folder is where your records will live, so avoid temporary places like your Downloads folder.</p>
+
+      <div class="os">
+        <h3>Windows <span class="tag">Windows 10 and 11</span></h3>
+        <ol class="steps">
+          <li>Open the Bodycraft folder and double-click <code>start.py</code>.</li>
+          <li>If Windows asks which program to use, pick Python. Or open Command Prompt in the folder and run <code>py start.py</code>.</li>
+          <li>Bodycraft starts its small background server and opens in its own window.</li>
+        </ol>
+      </div>
+
+      <div class="os">
+        <h3>macOS</h3>
+        <ol class="steps">
+          <li>Open Terminal (in Applications &rarr; Utilities).</li>
+          <li>Type <code>cd </code> (with a space), drag the Bodycraft folder onto the Terminal window, and press Return.</li>
+          <li>Run <code>python3 start.py</code>. You can close Terminal once Bodycraft is open.</li>
+        </ol>
+        <p class="muted" style="font-size:15px">Double-clicking a <code>.py</code> file on a Mac usually opens it in a text editor instead of running it. For a double-click icon, use the optional installer below.</p>
+      </div>
+
+      <div class="os">
+        <h3>Linux</h3>
+        <ol class="steps">
+          <li>Open a terminal in the Bodycraft folder.</li>
+          <li>Run <code>python3 start.py</code>.</li>
+        </ol>
+      </div>
+
+      <h3>What happens when it starts</h3>
+      <p><code>start.py</code> makes sure the Bodycraft server is running, then opens the app. If you have Chrome, Edge, Brave or Chromium, it opens as a clean app window without tabs or an address bar; otherwise it opens in your default browser.</p>
+      <p>The app's address is <code>http://127.0.0.1:8765/</code>. If something else on your computer already uses port 8765, Bodycraft quietly moves to the next free port, up to 8776. You never need to type the address yourself.</p>
+      <p>The server keeps running in the background after you close the window, so reopening is instant. It only accepts connections from your own computer.</p>
+      <div class="callout note"><span class="lbl">Tip</span>
+        <p>Want the address without a window opening? Run <code>python3 start.py --no-browser</code> (or set the environment variable <code>BODYCRAFT_NO_BROWSER=1</code>). Bodycraft prints the address and you can open it in any browser.</p>
+      </div>
+
+      <h3>Optional: desktop icon and start at login</h3>
+      <p>Run <code>install.py</code> the same way you ran <code>start.py</code>. It adds a shortcut so you don't need the terminal again:</p>
+      <div class="tbl"><table>
+        <thead><tr><th>System</th><th>What install.py creates</th><th>Starts at login</th></tr></thead>
+        <tbody>
+          <tr><td>Windows</td><td>A <strong>Bodycraft</strong> shortcut on your desktop</td><td>The background server and the desktop reminder bar (set up automatically)</td></tr>
+          <tr><td>macOS</td><td><code>Bodycraft.command</code> on your Desktop. The first time, right-click it and choose <strong>Open</strong>.</td><td>The background server, if you answer <strong>y</strong> when asked</td></tr>
+          <tr><td>Linux</td><td>A Bodycraft entry in your app menu, plus a desktop icon if you have a Desktop folder</td><td>The background server, if you answer <strong>y</strong> when asked</td></tr>
+        </tbody>
+      </table></div>
+      <p>Nothing opens a browser window at login. Only the quiet background server (and on Windows the reminder bar) starts.</p>
+
+      <h4>The reminder bar</h4>
+      <p>The reminder bar is a small card that sits at the edge of your screen and nudges you at key times in your routine. Drag it to the left or right edge and it tucks away; hover to slide it out, double-click to open Bodycraft, right-click to quit. To turn it on or off, run <code>widget_toggle.py</code>. It needs Python's tkinter (on Linux, the <code>python3-tk</code> package).</p>
+    </section>
+
+    <!-- 3 -->
+    <section id="setup">
+      <h2><span class="num">03</span>First-run setup</h2>
+      <p>The first time Bodycraft opens, it asks a few questions so the plan, calorie estimates and daily routine fit you. It takes about a minute, needs no account and no AI key, and stays on your computer.</p>
+      <figure>
+        <img src="docs/screenshots/setup.png" width="1280" height="760" alt="The first-run setup window with name, units, sex, age, height, activity level, current and goal weight, timeline, wake-up time, bedtime and meal times filled in" loading="lazy">
+        <figcaption>The setup window, filled in for a sample user named Sam: 5 ft 8 in, starting at 196 lb with a goal of 172 lb over 18 weeks.</figcaption>
+      </figure>
+      <ul>
+        <li><strong>Name and units.</strong> Choose <span class="ui">lb</span> or <span class="ui">kg</span>. With pounds, height is entered in feet and inches.</li>
+        <li><strong>Sex, age and height.</strong> Optional, but they make your resting-calorie estimate much more accurate, and height lets Bodycraft check that your goal weight isn't too low.</li>
+        <li><strong>Day-to-day activity.</strong> How active you are outside of workouts (desk job, on your feet, physical job). Workouts are logged separately.</li>
+        <li><strong>Current weight, goal weight and timeline.</strong> As you type, the box at the bottom tells you the weekly pace and whether it is gentle or fast. If the pace is faster than about 1% of your body weight per week, Bodycraft suggests a longer timeline and uses it when you save. Goals below a healthy weight for your height are refused, and Bodycraft doesn't build fat-loss plans for anyone under 18.</li>
+        <li><strong>Wake-up time, bedtime and meal times.</strong> Your daily routine is built around these. If you enter a different weekend wake-up time, you also get a separate weekend routine for Saturday and Sunday.</li>
+        <li><strong>Start date.</strong> Usually today.</li>
+      </ul>
+      <p>Click <span class="ui">Get started</span> to build your plan, or <span class="ui">Skip for now</span> to look around first. You can redo it any time with <span class="ui">Start setup again</span> in the row of buttons above the tabs. Redoing setup rebuilds your weekly plan; weights and notes you've logged stay.</p>
+      <div class="callout note"><span class="lbl">Good to know</span>
+        <p>For goals of about 20 lb or more, aim for the <strong>first 5%</strong> of your starting weight before worrying about the rest. Bodycraft marks it as your first milestone because many health markers tend to improve around that point.</p>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section id="day">
+      <h2><span class="num">04</span>A day with Bodycraft</h2>
+      <p>Most days you only need the <strong>Today</strong> tab. Open it in the morning, glance at it during the day, and log things as they happen or all at once in the evening.</p>
+      <figure>
+        <img src="docs/screenshots/today.png" width="1280" height="1240" alt="The Today tab showing a greeting, the current time block, a row of stats, the eating window card, daily habits and water glasses" loading="lazy">
+        <figcaption>The Today tab in the evening. At the top: what to do right now (<em>Walk after dinner</em>), your goal, the calories left for today and how much you've lost. Below: the eating window card, daily habits and water.</figcaption>
+      </figure>
+
+      <h3>The top of the page</h3>
+      <ul>
+        <li><strong>Now.</strong> The current block from your routine, with the time it covers. The red clock and week number are on the right.</li>
+        <li><strong>The stats row.</strong> Goal weight, planned loss, <strong>Left today</strong> (calories you have left in today's budget; click it to see how it's calculated), how much you've lost so far, your daily activity goal and your sleep goal.</li>
+        <li><strong>Buttons above the tabs.</strong> Switch or add people, <span class="ui">Set up AI</span>, <span class="ui">Edit plan with AI</span>, <span class="ui">Text size</span> (click to cycle through larger text), <span class="ui">Import backup</span>, <span class="ui">Start setup again</span> and <span class="ui">Erase all data</span>.</li>
+      </ul>
+
+      <h3>Weigh in</h3>
+      <p>Weigh yourself in the morning, after the bathroom and before eating or drinking, the same way each time. Log it on the <strong>Progress</strong> tab under <strong>Log weight</strong>: pick the date, type the number, click <span class="ui">Log it</span>. Click the calendar button to see which days already have a weigh-in. Daily or weekly both work.</p>
+
+      <h3>Daily habits</h3>
+      <p>Five simple habits are set up for you: <em>Weigh in</em>, <em>Log what you eat</em>, <em>Protein at every meal</em>, <em>Move 30 minutes</em> and <em>Lights out on time</em>. Click one to check it off. Several check themselves off automatically when the matching thing is logged, for example <em>Weigh in</em> after you log today's weight. A habit with minutes in it, like <em>Move 30 minutes</em>, also adds a workout when you check it.</p>
+      <p>To change the list, click the gear button next to <strong>Today at a glance</strong> and choose <span class="ui">Edit check-ins</span>, or just tell the coach, for example <em>"Add a daily check: stretch for 10 minutes before bed."</em> Check-ins start fresh every morning.</p>
+
+      <h3>Water</h3>
+      <p>Click a glass to fill up to it; click the last filled glass to undo one. The default goal is 64 oz in 8 oz glasses. You can change both under <span class="ui">Edit daily goals</span> in the same gear menu, along with your daily calorie and protein targets.</p>
+
+      <h3>Meals</h3>
+      <p>Bodycraft gives you four meal slots (Breakfast, Lunch, Dinner, Snack). You can rename them or add more with <span class="ui">Edit meals</span>. There are three ways to log a meal.</p>
+      <figure>
+        <img src="docs/screenshots/meals.png" width="1280" height="548" alt="The Meals card with breakfast, lunch and dinner logged, showing the time, calories and foods for each, and an empty snack slot" loading="lazy">
+        <figcaption>Logged meals show the time, calories and foods. The empty Snack slot shows the two ways to start: <em>Enter calories</em> or <em>Scan a photo</em>.</figcaption>
+      </figure>
+      <div class="grid">
+        <div class="card"><h4>Type it in</h4><p>Click <span class="ui">Enter calories</span>. Add foods with an amount and unit (grams, oz, cup, slice, each and more), then click <span class="ui">Get calories</span>. Foods already in your calorie list are filled in on your computer; only new foods need AI. Just want a total? Leave the name blank and type the calories.</p></div>
+        <div class="card"><h4>Snap a photo</h4><p>Click <span class="ui">Scan a photo</span>. With AI set up, it lists the foods it sees with estimated calories and macros for you to check and fix. Without AI, the photo is still saved and you type the numbers. iPhone HEIC photos need to be exported as JPG first.</p></div>
+        <div class="card"><h4>Describe it</h4><p>Click <span class="ui">Log by describing it</span> and write something like <em>"Two scrambled eggs and coffee for breakfast, a turkey sandwich and an apple for lunch."</em> Click <span class="ui">Estimate</span>, check the list, and save. Needs AI.</p></div>
+      </div>
+      <figure>
+        <img src="docs/screenshots/meal-edit.png" width="1280" height="796" alt="The Edit dinner window listing grilled salmon, roasted broccoli and brown rice with grams, calories, protein, carbs and fat, a time eaten field and the meal total" loading="lazy">
+        <figcaption>Click <span class="ui">Edit</span> on a logged meal to see and change each food, its protein, carbs and fat, and the time you ate it.</figcaption>
+      </figure>
+      <p>Two details make the numbers more useful:</p>
+      <ul>
+        <li><strong>Time eaten.</strong> Bodycraft fills in the current time. If you're logging later, change it. The eating window and fasting time on the Today tab are based on it.</li>
+        <li><strong>Protein, carbs and fat.</strong> When a meal has food details, the <strong>Calories</strong> card shows how much protein each meal had and how close you are to today's protein, carb and fat targets. The protein target is about 0.7 g per lb of body weight unless you set your own under <span class="ui">Edit daily goals</span>.</li>
+      </ul>
+      <p>Don't want to track every bite? In the <strong>Calories</strong> card, click a meal to count it at a default amount (350 calories for breakfast, 500 for lunch, 600 for dinner and 200 for a snack, all editable).</p>
+      <p>Every food you look up is saved to <strong>My calorie list</strong> on the <strong>Plate</strong> tab, so it comes back instantly next time without AI. The Plate tab also has a calorie calculator and tips for judging portions without a scale. With AI set up, the <strong>Meals</strong> tab suggests dishes from what's in your kitchen or what you're in the mood for, and you can save the ones you like under <strong>My recipes</strong>.</p>
+
+      <h3>Workouts</h3>
+      <p>In the <strong>Activity and sleep</strong> card, pick a type (Walk, Run, Bike, Swim, Strength, Yoga, Hike or Other), enter the minutes, choose Light, Moderate or Vigorous, and click <span class="ui">Log it</span>. Bodycraft estimates the calories and lets you change the number before saving. Workouts count toward today's calories out.</p>
+
+      <h3>Sleep and naps</h3>
+      <p>Enter last night's bedtime and wake-up time, pick how well you slept, and click <span class="ui">Log it</span>. Naps are logged separately below it, by start and end time or by minutes.</p>
+
+      <h3>Daily notes and progress photos</h3>
+      <p><strong>Daily notes</strong> is a simple journal: how the day went, what was hard, what you noticed. Use <span class="ui">History</span> to look back. <strong>Today's photo</strong> keeps progress pictures in the <code>selfies</code> folder; they are never uploaded and never sent to AI.</p>
+
+      <h3>Your routine</h3>
+      <p>The <strong>Routine</strong> tab shows your day as time blocks built from your setup answers. The red marker shows the current block.</p>
+      <figure>
+        <img src="docs/screenshots/routine.png" width="1280" height="1133" alt="The Routine tab with time blocks from a 6:45 AM wake-up to a 10:15 PM wind-down, with the Walk after dinner block highlighted as the current one" loading="lazy">
+        <figcaption>A workday routine. Switch to the weekend version with the <em>Weekend</em> button.</figcaption>
+      </figure>
+      <p>The gear menu on this tab has <span class="ui">Edit time blocks</span>, <span class="ui">Rebuild from wake-up and meal times</span> and <span class="ui">Edit categories</span> (the color-coded block types).</p>
+    </section>
+
+    <!-- 5 -->
+    <section id="coach">
+      <h2><span class="num">05</span>Talking to the coach</h2>
+      <p>Click <span class="ui">Ask your coach</span> in the bottom-left corner. You can write the way you'd text a friend; the coach works out whether you're asking a question, logging something or asking to change a setting.</p>
+      <figure>
+        <img src="docs/screenshots/coach.png" width="1280" height="668" alt="The coach panel open with Rosie selected, showing two questions from Sam and two replies that refer to his weigh-ins, 7-day average and protein" loading="lazy">
+        <figcaption>The coach answers from your own logs: recent weigh-ins, today's meals, workouts, sleep and your plan.</figcaption>
+      </figure>
+      <h3>What it can do</h3>
+      <ul>
+        <li><strong>Answer questions</strong> about your progress, a plateau, a hard day or what to eat, using your actual numbers.</li>
+        <li><strong>Log for you.</strong> Try <em>"Weight 190.8, breakfast was 2 eggs and a slice of toast, walked 30 minutes, slept 11:30 pm to 7 am."</em> It turns that into a list for you to check, then saves it.</li>
+        <li><strong>Read a photo.</strong> Click the camera button (or paste an image) to send a meal photo, or a screenshot of a log from another app.</li>
+        <li><strong>Change settings.</strong> <em>"Move dinner to 6:30 pm"</em> or <em>"Add a habit"</em> opens a preview of the change. Nothing changes until you approve it, and there's an <span class="ui">Undo</span> button afterward.</li>
+      </ul>
+      <p>The example buttons above the message box fill in a sample message you can edit.</p>
+
+      <h3>Three coaching styles</h3>
+      <div class="grid">
+        <div class="card"><h4>Rosie</h4><p>Kind and patient. Points out the good changes you might have missed and encourages you with specifics.</p></div>
+        <div class="card"><h4>Mack</h4><p>A blunt, funny friend who calls out excuses. Teases the habit, never your body.</p></div>
+        <div class="card"><h4>Data</h4><p>A calm analyst. Sticks to trends, numbers and one clear takeaway.</p></div>
+      </div>
+      <p>Switch styles with the buttons at the top of the panel. <span class="ui">Rename</span> lets you give them your own names. <span class="ui">Health notes</span> is where you can note things like medications or lab results once, so the coach takes them into account. The expand button next to the close button makes the panel larger.</p>
+      <div class="callout caution"><span class="lbl">Keep in mind</span>
+        <p>The coach needs AI to be set up. Without it, the panel still shows a summary of what you've logged today and links to the guides on the <strong>Principles</strong> tab. Coach replies are general information from an AI model and can be wrong.</p>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section id="ai">
+      <h2><span class="num">06</span>Setting up AI</h2>
+      <p>AI is optional. It powers the coach, photo and plain-language meal logging, meal ideas, calorie lookups for new foods, <span class="ui">Edit plan with AI</span> and written reviews. Bodycraft works with any service that offers an OpenAI-compatible API, including a model running on your own computer.</p>
+      <figure>
+        <img src="docs/screenshots/ai-setup.png" width="1280" height="760" alt="The Set up AI window with a provider menu set to OpenAI, an API key field and advanced fields for base URL and models" loading="lazy">
+        <figcaption>Pick a provider, paste your key and click <em>Save</em>. The advanced fields are filled in for you.</figcaption>
+      </figure>
+      <ol class="steps">
+        <li>Create an API key with your chosen provider (links below). Most providers ask you to add a payment method first.</li>
+        <li>In Bodycraft, click <span class="ui">Set up AI</span>.</li>
+        <li>Choose the provider, paste the key into <strong>API Key</strong>, and click <span class="ui">Save</span>.</li>
+      </ol>
+      <div class="tbl"><table>
+        <thead><tr><th>Provider</th><th>Key</th><th>Main model it fills in</th><th>Where to get a key</th></tr></thead>
+        <tbody>
+          <tr><td>OpenAI</td><td>Yes</td><td><code>gpt-5-mini</code></td><td><a href="https://platform.openai.com">platform.openai.com</a></td></tr>
+          <tr><td>Anthropic Claude</td><td>Yes</td><td><code>claude-sonnet-5-5</code></td><td><a href="https://console.anthropic.com">console.anthropic.com</a></td></tr>
+          <tr><td>Google Gemini</td><td>Yes</td><td><code>gemini-2.5-flash</code></td><td><a href="https://aistudio.google.com">aistudio.google.com</a></td></tr>
+          <tr><td>OpenRouter</td><td>Yes (one key for many providers)</td><td><code>openai/gpt-5-mini</code></td><td><a href="https://openrouter.ai">openrouter.ai</a></td></tr>
+          <tr><td>Ollama (runs on your computer)</td><td>No</td><td><code>llama3.2</code>, with <code>llama3.2-vision</code> for photos</td><td>Install from <a href="https://ollama.com">ollama.com</a>, then pull the models</td></tr>
+          <tr><td>Custom (OpenAI-compatible)</td><td>Usually</td><td>You fill in the base URL and model</td><td>Your service's documentation</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Two models, two jobs.</strong> The main model runs the coach and suggestions. A smaller, faster "logging" model turns what you type into meals, weights and calories. If you leave the logging model blank, Bodycraft picks the provider's small model for you (for example <code>gpt-5-nano</code> or <code>claude-haiku-5-5</code>).</p>
+      <p><strong>Ollama:</strong> install Ollama, run <code>ollama pull llama3.2</code> (and <code>ollama pull llama3.2-vision</code> if you want photo reading), make sure Ollama is running, then choose <em>Ollama</em> in Bodycraft and click <span class="ui">Save</span> without a key. Nothing leaves your computer, but answers may be slower and less accurate than the cloud models.</p>
+      <div class="callout note"><span class="lbl">About costs</span>
+        <p>Bodycraft is free and has no account. AI requests are billed by your provider to <strong>your own provider account</strong>, at that provider's prices. Light daily use of a small model usually costs little, but check your provider's pricing page and consider setting a monthly spending limit there.</p>
+      </div>
+      <h3>What works without AI</h3>
+      <p>Everything you log by hand works without a key: weigh-ins, habits, water, meals by calories or from foods already in your calorie list, workouts, sleep, notes, progress photos, the routine, the eating window, the progress chart, the <span class="ui">Last 7 days</span> summary, share cards and CSV export. To turn AI off again, open <span class="ui">Set up AI</span> and click <span class="ui">Remove key</span>.</p>
+    </section>
+
+    <!-- 7 -->
+    <section id="window">
+      <h2><span class="num">07</span>The eating window (optional)</h2>
+      <p>Time-restricted eating means eating all your meals within the same few hours each day, with only water, black coffee or plain tea outside them. <strong>16:8</strong> means a 16-hour overnight fast and an 8-hour eating window. Its main benefit is cutting out late-night snacking. In studies, people lost about as much as those who cut the same calories without a time limit, so use it only if it makes eating less easier for you.</p>
+      <ul>
+        <li><strong>Turn it on</strong> from the card on the Today tab (<span class="ui">Learn more &amp; set up</span>), or from <span class="ui">Eating window settings</span> on the Progress tab.</li>
+        <li><strong>Pick a level:</strong> 12:12 (starter: no eating after dinner), 14:10 or 16:8. Bodycraft doesn't offer anything shorter than an 8-hour window.</li>
+        <li><strong>Choose when it starts.</strong> A daytime window with an earlier dinner fits most schedules.</li>
+        <li>If a health reason on the checklist applies to you (pregnancy, diabetes medication, a history of eating disorders and others), Bodycraft won't start a window and suggests checking with your doctor.</li>
+      </ul>
+      <p>Once it's on, the Today card shows whether the window is open, how long you've been fasting, your meals as dots on a 24-hour bar, and how many of the last 7 days stayed inside the window. After a steady week it may suggest trying the next level; staying where you are is fine too. Shift workers can save a second window and switch between them with one click.</p>
+      <div class="callout caution"><span class="lbl">Stop and eat</span>
+        <p>If you feel shaky, dizzy or your heart races while fasting, eat something, and talk with your doctor.</p>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section id="progress">
+      <h2><span class="num">08</span>Progress and 7-day averages</h2>
+      <p>Body weight can swing 1 to 2 lb from one morning to the next, mostly from water and salt, even when you weigh in exactly the same way. That's why the <strong>Progress</strong> tab leads with averages instead of single days.</p>
+      <figure>
+        <img src="docs/screenshots/progress.png" width="1280" height="980" alt="The Progress tab with a 7-day average of 191.1 lb, down 1.4 lb from the previous 7 days, and a chart of daily weigh-ins, the 7-day average line and the goal line over five weeks" loading="lazy">
+        <figcaption>Five weeks of weigh-ins. The light dots are single days, the darker line is the 7-day average, and the green line is the goal.</figcaption>
+      </figure>
+      <ul>
+        <li><strong>7-day average</strong> and <strong>vs. previous 7 days</strong>: the clearest sign of which way you're heading. Each needs at least 3 weigh-ins in its 7 days.</li>
+        <li><strong>First milestone</strong>: how far you are toward losing your first 5%.</li>
+        <li><strong>The chart</strong>: switch between Auto, Day, Week, Month and All. Hover a point to see its value.</li>
+        <li><strong>Adjust weekly goal weight</strong>: change any week's goal if your plan needs to bend.</li>
+        <li><strong>When you ate · last 2 weeks</strong>: each row is a day's eating, from first bite to last.</li>
+        <li><strong>Week-by-week plan</strong>: each week's goal with an activity and food focus.</li>
+      </ul>
+      <p>When your plan's end date passes, the Today tab offers <span class="ui">Start next plan</span>, which runs setup again from your current weight.</p>
+    </section>
+
+    <!-- 9 -->
+    <section id="review">
+      <h2><span class="num">09</span>Reviews, share cards and export</h2>
+      <p>The <strong>Review</strong> tab looks back at what you've kept up with: days logged, current weight, total lost, exercise this week, badges, and plain-language explanations of your numbers (BMI, goal progress, recent pace, logging streak, workout days and average sleep).</p>
+      <div class="grid">
+        <div class="card"><h4>Last 7 days</h4><p>A quick weekly summary built only from your logs. No AI needed.</p></div>
+        <div class="card"><h4>Write a review</h4><p>Pick a date range and an AI writes a review with a badge wall and your photos. Choose whether it may read your daily notes. Save it with <span class="ui">Save as HTML</span> to keep, print or send to family.</p></div>
+        <div class="card"><h4>Make a share card</h4><p>A card about your consistency, such as how long you've kept going and how many workouts you've done. It <strong>never</strong> shows your current weight, height, name, photos or notes. You can add a goal for the coming week and, if you choose, the total amount you've lost. It opens in a new tab; take a screenshot to share it.</p></div>
+        <div class="card"><h4>Export data (CSV)</h4><p>Downloads <code>bodycraft_export.csv</code> with one row per day: weight in lb and kg, workouts, sleep, calories in and out, meal times, and protein, carbs and fat. Opens in Excel, Numbers or Google Sheets.</p></div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section id="household">
+      <h2><span class="num">10</span>Households: more than one person</h2>
+      <p>Several people can share one Bodycraft on the same computer. Click <span class="ui">+ Add person</span> next to <strong>Who</strong>, answer a short setup for them, and they get their own plan. Click a name to switch. Each person has their own weigh-ins, meals, workouts, sleep, notes, check-ins and photos.</p>
+      <p>The <span class="ui">Same for everyone</span> button decides whether plans and templates (routine, habits, meal ideas, principles) are shared by the whole household or kept <span class="ui">Per person</span>. Click it to switch.</p>
+      <p>Everyone in the household can see everyone's records, since they live in the same folder on the same computer. If someone wants privacy, they can keep their own copy of Bodycraft in a separate folder or user account.</p>
+    </section>
+
+    <!-- 11 -->
+    <section id="privacy">
+      <h2><span class="num">11</span>Where your data lives and privacy</h2>
+      <p>Everything is stored locally, in the Bodycraft folder. The server listens only on your own computer (<code>127.0.0.1</code>), so other devices on your network can't reach it, and it refuses requests from other websites open in your browser.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>In the Bodycraft folder</th><th>What it holds</th></tr></thead>
+        <tbody>
+          <tr><td><code>data.json</code></td><td>People, weigh-ins, weekly goals, workouts, sleep and naps</td></tr>
+          <tr><td><code>content.json</code></td><td>Your profile, plan, routine, habits, meal slots, eating window and other settings</td></tr>
+          <tr><td><code>photos.json</code> and <code>photos/</code></td><td>Logged meals (foods, calories, times) and meal photos</td></tr>
+          <tr><td><code>diary.json</code></td><td>Daily notes</td></tr>
+          <tr><td><code>selfies.json</code> and <code>selfies/</code></td><td>Progress photos</td></tr>
+          <tr><td><code>attach.json</code> and <code>files/</code></td><td>Files you keep on the Files tab, such as lab results</td></tr>
+          <tr><td><code>food_lookup.json</code><br><code>favorites.json</code><br><code>knowledge.json</code></td><td>Your calorie list, saved recipes, and eating methods you taught the coach</td></tr>
+          <tr><td><code>api_config.json</code></td><td>Your AI provider and key, in plain text. Treat it like a password.</td></tr>
+          <tr><td><code>backups/</code></td><td>Automatic snapshots taken before each change</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Your browser</strong> also keeps a few small things for each person: habit check-ins, water glasses, badges and display preferences such as text size. Browsers store these by address, so they belong to the address Bodycraft runs on (for example <code>127.0.0.1:8765</code>) and to that browser. Clearing that site's data in your browser removes them.</p>
+      <h3>What leaves your computer</h3>
+      <p>Only AI requests, and only to the provider you chose. If you never set up AI, nothing leaves your computer. When you use an AI feature, Bodycraft sends what that feature needs, for example:</p>
+      <ul>
+        <li>your message to the coach, the recent conversation, your recent weigh-ins, today's meals, workout and sleep, your profile basics (name, sex, age, height, plan), your health notes, and today's note</li>
+        <li>a meal photo, when you ask it to read one</li>
+        <li>the date range of logs (and your notes, if you allow it) when you ask for a written review</li>
+      </ul>
+      <p>Progress photos are never sent. With Ollama, AI requests stay on your computer too. How your provider handles the data is covered by that provider's own privacy policy.</p>
+    </section>
+
+    <!-- 12 -->
+    <section id="backup">
+      <h2><span class="num">12</span>Backups, moving and upgrading</h2>
+      <h3>Automatic snapshots</h3>
+      <p>Before saving a change, Bodycraft copies the previous version of your data, settings, meals, notes and file list into the <code>backups</code> folder, keeping the most recent ones. If something goes wrong, you can copy a snapshot back (rename it to the original file name, such as <code>data.json</code>, while Bodycraft is closed).</p>
+      <h3>Your own backup</h3>
+      <p>The simplest backup is a copy of the whole Bodycraft folder, for example to an external drive or a cloud-synced folder. That copy includes everything except the browser-held check-ins described above.</p>
+      <h3>Moving to a new computer</h3>
+      <p>Copy the whole folder to the new computer and start it as usual. Or, on a fresh install, use <span class="ui">Import backup</span> and pick <code>data.json</code> and <code>content.json</code> from the old folder. Import replaces matching content (your current data is backed up first). Photos and stored files are copied by hand: the <code>photos</code>, <code>selfies</code> and <code>files</code> folders.</p>
+      <h3>Upgrading to a new version</h3>
+      <ol class="steps">
+        <li>Close the Bodycraft window.</li>
+        <li>Unzip the new version <strong>over</strong> the old folder and let it replace the files. New versions don't include any data files, so your records are kept.</li>
+        <li>Open Bodycraft the usual way. <code>start.py</code> notices that the running server is older and restarts it with the new version.</li>
+      </ol>
+      <p>If you see a banner saying the server is still running an older version, see <a href="#trouble">Troubleshooting</a>.</p>
+    </section>
+
+    <!-- 13 -->
+    <section id="uninstall">
+      <h2><span class="num">13</span>Uninstalling and starting over</h2>
+      <h3>Uninstall</h3>
+      <p>Run <code>uninstall.py</code>. It stops Bodycraft's background processes, removes the shortcuts and login items that <code>install.py</code> created, and then asks whether to clear your data too. Your data is kept unless you type <strong>y</strong>; even then it's moved into an <code>uninstall-backup_</code> folder rather than deleted. After that, delete the Bodycraft folder. Bodycraft doesn't install system services; apart from the shortcuts, everything it uses is inside its own folder.</p>
+      <p>To remove the browser-held check-ins as well, clear the site data for <code>127.0.0.1</code> in your browser.</p>
+      <h3>Start over without uninstalling</h3>
+      <ul>
+        <li><span class="ui">Erase all data</span> in the app clears your logs (backed up first) and the check-ins in your browser. Your routine, recipes, habit list and API key stay.</li>
+        <li><code>reset_data.py</code> offers three levels, from clearing just your records up to clearing settings and your API key. Everything is backed up first. It can't reach your browser, so click <span class="ui">Erase all data</span> in the app as well.</li>
+      </ul>
+    </section>
+
+    <!-- 14 -->
+    <section id="trouble">
+      <h2><span class="num">14</span>Troubleshooting</h2>
+      <dl class="faq">
+        <dt>Nothing happens when I double-click start.py</dt>
+        <dd>Your computer may not know to open <code>.py</code> files with Python. Open a terminal in the Bodycraft folder and run <code>python3 start.py</code> (Windows: <code>py start.py</code>). If that says Python isn't found, install it from python.org. On a Mac, run <code>install.py</code> once to get a double-clickable <code>Bodycraft.command</code>.</dd>
+
+        <dt>The browser window didn't open</dt>
+        <dd>Run <code>python3 start.py --no-browser</code>. It prints the address, such as <code>http://127.0.0.1:8765/</code>; paste it into any browser. Bookmarking it is fine.</dd>
+
+        <dt>"Port in use" or "Ports 8765–8776 are all in use"</dt>
+        <dd>Bodycraft uses port 8765, or the next free one up to 8776 if another program has it, so a single busy port isn't a problem. If all twelve are busy, Bodycraft can't start its server and opens a limited offline version that keeps entries only in your browser. Close other programs or restart your computer, then open Bodycraft again. On macOS and Linux, details are in the <code>.server.log</code> file in the folder.</dd>
+
+        <dt>A banner says the server is running an older version</dt>
+        <dd>This appears right after an upgrade if the old background server is still running. Close the window and open Bodycraft again with <code>start.py</code> or your desktop icon; it restarts the server with the new version. If the banner stays, run <code>bodycraft_server.py</code> from the folder (as the banner suggests), or log out and back in.</dd>
+
+        <dt>"AI isn't set up yet"</dt>
+        <dd>Click <span class="ui">Set up AI</span> and add a provider. Manual logging works in the meantime.</dd>
+
+        <dt>AI errors or no reply</dt>
+        <dd>
+          <ul>
+            <li>Check that the key was pasted completely and belongs to the provider you picked.</li>
+            <li>Make sure your provider account has billing set up and hasn't hit a spending limit.</li>
+            <li>If you changed the model names under Advanced, check them against your provider's model list, or pick the provider again to restore the defaults.</li>
+            <li>For Ollama, make sure Ollama is running and the models are pulled.</li>
+            <li>Photo reading needs a model that can see images (the vision model).</li>
+          </ul>
+        </dd>
+
+        <dt>My photo won't upload</dt>
+        <dd>HEIC photos (the iPhone default) can't be read. Export the photo as JPG, or on your iPhone go to Settings &rarr; Camera &rarr; Formats and choose Most Compatible. Photos must be under 15 MB.</dd>
+
+        <dt>My check-ins or water glasses disappeared</dt>
+        <dd>These are kept by your browser for the address Bodycraft runs on. They won't show if you open Bodycraft in a different browser, after clearing browsing data, or if Bodycraft is running on a different port than before. Your weigh-ins, meals and other records in the folder are not affected.</dd>
+
+        <dt>Windows says the folder is in use when I try to delete it</dt>
+        <dd>Run <code>uninstall.py</code> first so the background server stops, close the Bodycraft window, and make sure File Explorer isn't showing the folder.</dd>
+
+        <dt>On macOS, the server doesn't start at login</dt>
+        <dd>macOS privacy settings can block login items from reading the Desktop, Documents and Downloads folders. Move the Bodycraft folder to your home folder and run <code>install.py</code> again.</dd>
+      </dl>
+    </section>
+
+    <!-- 15 -->
+    <section id="health">
+      <h2><span class="num">15</span>Health disclaimer</h2>
+      <div class="callout stop"><span class="lbl">Not medical advice</span>
+        <p>Bodycraft is a personal tracking and reminder tool. Its routines, meal ideas, calorie numbers, goal weights and AI feedback are general information only. They are not medical, nutrition or exercise advice and don't replace the judgment of a doctor, registered dietitian or other qualified professional.</p>
+      </div>
+      <ul>
+        <li>Calorie estimates, especially from photos, are rough and can be far off. Use them as a reference.</li>
+        <li>If you have a health condition, take medication, are pregnant or breastfeeding, are under 18, or feel strong anxiety or a loss of control around food or weight, talk with a health professional before using the plan features.</li>
+        <li>A slower, steadier pace is easier to sustain. Bodycraft flags goals that are clearly too fast or too low, but you remain responsible for your own health decisions.</li>
+        <li>If you have chest pain, fainting, or other urgent symptoms, contact a doctor or emergency services.</li>
+      </ul>
+      <p><a class="totop" href="#">Back to top &uarr;</a></p>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="inner">
+    Bodycraft v1 · by @mmjj324 · Free to use and to share with friends and family; not for commercial use (PolyForm Noncommercial License 1.0.0). Screenshots show a fictional sample user.
+  </div>
+</footer>
+
+<script>
+  // Highlight the section you're reading in the table of contents.
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+    var sections = Array.prototype.slice.call(document.querySelectorAll('main section'));
+    if(!links.length || !sections.length) return;
+    var current = null, ticking = false;
+    function update(){
+      ticking = false;
+      var line = window.innerHeight * 0.35, id = sections[0].id;
+      sections.forEach(function(s){ if(s.getBoundingClientRect().top <= line) id = s.id; });
+      if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) id = sections[sections.length - 1].id;
+      if(id === current) return;
+      current = id;
+      links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + id); });
+    }
+    window.addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }, {passive: true});
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+</body>
+</html>
